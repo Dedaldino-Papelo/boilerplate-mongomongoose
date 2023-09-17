@@ -51,21 +51,38 @@ const createManyPeople = (arrayOfPeople, done) => {
 };
 
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+  Person.find({name: personName}, (err, person) => {
+    if (err) return done(err)
+    done(null, person)
+  })
 };
 
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({favoriteFoods: food}, (err, data) => {
+    if (err) return done(err)
+    done(null, data)
+  })
 };
 
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findById({_id: personId}, (err, foundPerson) => {
+    if (err) return done(err)
+    done(null, foundPerson)
+  })
 };
 
 const findEditThenSave = (personId, done) => {
-  const foodToAdd = "hamburger";
-
-  done(null /*, data*/);
+  const foodToAdd = "hamburger"
+  Person.findById({_id: personId}, (err, person) => {
+   if (err) return done(err)
+    
+   person.favoriteFoods.push(foodToAdd);
+    
+   person.save((err, data) => {
+     if (err) return done(err)
+     done(null, data)
+   })
+ })
 };
 
 const findAndUpdate = (personName, done) => {
